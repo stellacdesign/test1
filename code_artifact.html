@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ziyu (Stella) Chen | Portfolio</title>
+    
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-primary: #000000;
+            --text-secondary: #888888;
+            --border-color: #e5e5e5;
+            /* Timing for smooth, elegant interactions */
+            --transition-speed: 0.6s; 
+            --easing: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            /* Specifying Diatype as requested, with clean fallbacks */
+            font-family: "ABCDiatype", "Diatype", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-weight: 400; /* Regular */
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5vw;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            /* Center the content horizontally */
+            justify-content: center; 
+        }
+
+        /* The container that triggers the hover effect */
+        .interactive-title {
+            position: relative;
+            cursor: pointer;
+            display: inline-flex;
+            flex-direction: column;
+            /* Center items inside this container */
+            align-items: center; 
+            padding-bottom: 2rem;
+        }
+
+        /* Style for the new central image */
+        .interactive-title img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            /* Adjust width as needed */
+            width: 300px;
+            /* Smooth transition for any future hover effects on the image itself */
+            transition: opacity 0.4s ease;
+        }
+
+        .interactive-title:hover img {
+            /* Optional: slight fade on hover */
+            opacity: 0.9;
+        }
+
+        /* Dropdown Navigation */
+        .dropdown-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 24px;
+            
+            position: absolute;
+            top: 100%;
+            /* Center the dropdown horizontally relative to the image */
+            left: 50%;
+            transform: translateX(-50%); 
+            
+            pointer-events: none;
+            /* Center text inside the dropdown */
+            text-align: center;
+        }
+
+        .dropdown-menu a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            
+            opacity: 0;
+            /* Start from slightly above for a drop-down effect */
+            transform: translateY(-10px);
+            transition: opacity var(--transition-speed) var(--easing), 
+                        transform var(--transition-speed) var(--easing),
+                        color 0.3s ease;
+        }
+
+        .dropdown-menu a:hover {
+            color: var(--text-secondary);
+        }
+
+        /* Sequence stagger effects for dropdown items */
+        .dropdown-menu a:nth-child(1) { transition-delay: 0.0s; }
+        .dropdown-menu a:nth-child(2) { transition-delay: 0.08s; }
+        .dropdown-menu a:nth-child(3) { transition-delay: 0.16s; }
+
+        /* Hover State Trigger */
+        .interactive-title:hover .dropdown-menu {
+            pointer-events: auto;
+        }
+
+        .interactive-title:hover .dropdown-menu a {
+            opacity: 1;
+            /* Move to final position */
+            transform: translateY(0);
+        }
+
+        section {
+            padding: 15vh 0;
+            min-height: 80vh;
+        }
+
+        .section-header {
+            font-size: 1rem;
+            text-transform: lowercase;
+            color: var(--text-secondary);
+            margin-bottom: 60px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 24px;
+        }
+
+        /* Work & Play Grid */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4vw;
+            row-gap: 80px;
+        }
+
+        .project-card {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background-color: #f5f5f5; /* Very subtle grey for pure white background */
+            margin-bottom: 20px;
+            transition: background-color 0.4s ease, transform 0.6s var(--easing);
+        }
+
+        .project-card:hover .image-placeholder {
+            background-color: #ebebeb;
+            transform: scale(0.99);
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1rem;
+            align-items: baseline;
+        }
+
+        .project-title {
+            font-weight: 400;
+            font-size: 1.25rem;
+        }
+
+        .project-category {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .info-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4vw;
+        }
+
+        .info-text {
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
+            line-height: 1.5;
+            letter-spacing: -0.01em;
+            max-width: 800px;
+            margin-bottom: 60px;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .contact-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+            display: inline-block;
+            width: fit-content;
+            border-bottom: 1px solid transparent;
+        }
+
+        .contact-links a:hover {
+            color: var(--text-secondary);
+            border-bottom-color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .grid-layout, .info-content {
+                grid-template-columns: 1fr;
+            }
+            .interactive-title {
+                padding-bottom: 1rem;
+            }
+            .dropdown-menu {
+                position: relative;
+                top: 0;
+                margin-top: 16px;
+                pointer-events: auto;
+            }
+            .dropdown-menu a {
+                opacity: 1;
+                transform: translateY(0);
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <header class="hero">
+            <!-- Interactive trigger area -->
+            <div class="interactive-title">
+                <!-- Replace text with the uploaded image -->
+                <img src="image_378b67.png" alt="Portfolio Logo">
+                
+                <!-- Dropdown menu (appears on hover) -->
+                <nav class="dropdown-menu">
+                    <a href="#work">Work</a>
+                    <a href="#play">Play</a>
+                    <a href="#info">Info</a>
+                </nav>
+            </div>
+        </header>
+
+        <section id="work">
+            <div class="section-header">work</div>
+            <div class="grid-layout">
+                <a href="#" class="project-card">
+                    <div class="image-placeholder"></div>
+                    <div class="project-meta">
+                        <span class="project-title">Enterprise Dashboard</span>
+                        <span class="project-category">Product Design</span>
+                    </div>
+                </a>
+                <a href="#" class="project-card">
+                    <div class="image-placeholder"></div>
+                    <div class="project-meta">
+                        <span class="project-title">Breathscape</span>
+                        <span class="project-category">UI/UX & Brand</span>
+                    </div>
+                </a>
+                <a href="#" class="project-card">
+                    <div class="image-placeholder"></div>
+                    <div class="project-meta">
+                        <span class="project-title">Matterscape</span>
+                        <span class="project-category">Editorial</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section id="play">
+            <div class="section-header">play</div>
+            <div class="grid-layout">
+                <a href="#" class="project-card">
+                    <!-- Square ratio for 'play' items as an example variation -->
+                    <div class="image-placeholder" style="aspect-ratio: 1/1;"></div>
+                    <div class="project-meta">
+                        <span class="project-title">Visual Experiments</span>
+                        <span class="project-category">2023</span>
+                    </div>
+                </a>
+                <a href="#" class="project-card">
+                    <div class="image-placeholder" style="aspect-ratio: 1/1;"></div>
+                    <div class="project-meta">
+                        <span class="project-title">Motion Sketches</span>
+                        <span class="project-category">2022</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section id="info">
+            <div class="section-header">info</div>
+            <div class="info-content">
+                <div>
+                    <!-- Left column kept empty for layout balance and sophisticated whitespace -->
+                </div>
+                <div>
+                    <div class="info-text">
+                        Focused on creating intuitive, aesthetic, and highly valuable digital experiences. I am a Graphic, Motion & Brand Designer with a multidisciplinary background, specializing in translating complex logic into elegant interfaces.
+                    </div>
+                    
+                    <div class="contact-links">
+                        <a href="mailto:hello@example.com">Email</a>
+                        <a href="#">LinkedIn</a>
+                        <a href="#">Resume / CV</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
